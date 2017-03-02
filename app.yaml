@@ -3,8 +3,52 @@ api_version: 1
 threadsafe: yes
 
 handlers:
-- url: .*
-  script: main.app
+- url: /
+  static_files: templates/index.html
+  upload: templates/index.html
+  login: optional
+  secure: always
+  http_headers:
+    X-Frame-Options: DENY
+    X-XSS-Protection: 1; mode=block
+    X-Content-Type-Options: nosniff
+    cache-control: private, max-age=0, no-cache, no-store
+
+- url: /static/(.*)
+  static_files: static/\1
+  upload: static/.*
+  expiration: "200d 1h"
+  secure: always
+  http_headers:
+    X-Frame-Options: DENY
+    X-XSS-Protection: 1; mode=block
+    X-Content-Type-Options: nosniff
+
+
+
+- url: /lib/(.*)
+  static_files: lib/\1
+  upload: lib/.*
+  expiration: "200d 1h"
+  secure: always
+  http_headers:
+    X-Frame-Options: DENY
+    X-XSS-Protection: 1; mode=block
+    X-Content-Type-Options: nosniff
+
+
+- url: /(.*)
+  static_files: templates/index.html
+  upload: templates/index.html
+  login: optional
+  secure: always
+  http_headers:
+    X-Frame-Options: DENY
+    X-XSS-Protection: 1; mode=block
+    X-Content-Type-Options: nosniff
+    cache-control: private, max-age=0, no-cache, no-store
+
+
 
 libraries:
 - name: jinja2
